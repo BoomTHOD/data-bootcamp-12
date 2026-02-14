@@ -67,4 +67,21 @@ SELECT
         ELSE 'Others'
     END AS customer_segment
 FROM rfm_scores;
+------------------------------------------------------------------------------------------
 
+#Query Database Zomato
+SELECT
+    name,
+    online_order,
+    CAST(replace(rate, '/5', ' ') AS FLOAT) AS rating,
+    votes,
+    location,
+    rest_type,
+    cuisines,
+    CAST(replace([approx_cost(fortwopeople)], ',', ' ') AS INT) AS cost_for_two,
+    [listed_in(type)] AS list_type,
+    [listed_in(city)] AS list_city
+FROM zomato
+where rating is not NULL
+  AND rating NOT in ('NEW', '-')
+  AND cost_for_two is NOT NULL
